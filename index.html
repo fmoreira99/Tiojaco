@@ -10,23 +10,8 @@
       background-color: #0d1117;
       color: #f8f9fa;
       font-family: 'Segoe UI', sans-serif;
+      padding-bottom: 80px;
     }
-
-    .banner-top, .banner-sub, .banner-side, .banner-left {
-      background: #1f2937;
-      border: 1px dashed #444;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #aaa;
-      text-transform: uppercase;
-      font-size: 13px;
-    }
-
-    .banner-top { height: 90px; margin-bottom: 20px; }
-    .banner-sub { height: 60px; margin-bottom: 20px; }
-    .banner-side { width: 160px; height: 600px; margin-left: auto; margin-right: auto; }
-    .banner-left { width: 300px; height: 250px; margin: 0 auto 15px; }
 
     .video-card {
       background: #161b22;
@@ -49,6 +34,11 @@
       width: 180px;
       height: 100%;
       object-fit: cover;
+      transition: filter 0.3s;
+    }
+
+    .video-card:hover .video-thumb img {
+      filter: brightness(0.8);
     }
 
     .video-body {
@@ -77,6 +67,35 @@
       margin: 0 auto 20px;
     }
 
+    .banner-mobile {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: #000;
+      text-align: center;
+      z-index: 9999;
+    }
+
+    .btn-ayuda {
+      position: fixed;
+      bottom: 80px;
+      right: 15px;
+      z-index: 9999;
+      background: #00c2ff;
+      border: none;
+      color: #fff;
+      font-weight: bold;
+      border-radius: 50px;
+      padding: 10px 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+
+    .btn-ayuda:hover {
+      background: #008ecc;
+    }
+
     @media (max-width: 768px) {
       .video-card {
         flex-direction: column;
@@ -86,46 +105,146 @@
         width: 100%;
         height: 180px;
       }
-      .banner-side { display: none; }
-      .banner-left { width: 100%; height: 120px; }
-    }
-
-    @media (max-width: 576px) {
-      .banner-top, .banner-sub { height: 60px; font-size: 11px; }
-      .video-body h5 { font-size: 16px; }
-      .video-body p { font-size: 13px; }
+      .banner-left, .banner-right { display: none; }
+      .banner-mobile { display: block; }
     }
   </style>
 </head>
 
 <body>
   <div class="container-fluid text-center p-3">
-    <div class="banner-top mb-3">728x90 Banner</div>
-    <div class="banner-sub mb-4">468x60 Banner</div>
-
-    <h1 class="fw-bold mb-1">EL TÍO JACO</h1>
-    <p class="mb-4">Entretenimiento, anime, música y más</p>
-
-    <div class="search-bar input-group mb-4">
-      <input id="searchInput" type="text" class="form-control" placeholder="Buscar video...">
-      <button class="btn btn-outline-light" id="searchBtn"><i class="bi bi-search"></i> Buscar</button>
-    </div>
-
-    <div class="row">
-      <div class="col-lg-2 d-none d-lg-block">
-        <div class="banner-left">300x250</div>
-        <div class="banner-left" style="height:50px;">300x50</div>
+    <div class="row align-items-start">
+      <!-- 🟥 Banner izquierdo (arriba) -->
+      <div class="col-lg-2 d-none d-lg-block banner-left">
+        <div class="mb-3">
+          <script type="text/javascript">
+            atOptions = {
+              'key' : 'cc2c56e63007296384ef27a2b0a74b05',
+              'format' : 'iframe',
+              'height' : 250,
+              'width' : 300,
+              'params' : {}
+            };
+          </script>
+          <script type="text/javascript" src="//www.highperformanceformat.com/cc2c56e63007296384ef27a2b0a74b05/invoke.js"></script>
+        </div>
       </div>
 
-      <div class="col-lg-8 col-md-8 p-5">
-        <div id="videoList" class="d-flex flex-column gap-3 pl-4 pr-4"></div>
+      <!-- 🎥 Contenido principal -->
+      <div class="col-lg-8 col-md-12">
+        <!-- 🟦 Banner 728x90 -->
+        <div id="banner-top" class="mb-3">
+          <script type="text/javascript">
+            atOptions = {
+              'key' : 'fb86845e5749849c030a0a8e8366b2fa',
+              'format' : 'iframe',
+              'height' : 90,
+              'width' : 728,
+              'params' : {}
+            };
+          </script>
+          <script type="text/javascript" src="//www.highperformanceformat.com/fb86845e5749849c030a0a8e8366b2fa/invoke.js"></script>
+        </div>
+
+        <h1 class="fw-bold mb-1">EL TÍO JACO</h1>
+        <p class="mb-3">Entretenimiento, anime, música y más</p>
+
+        <!-- 🟨 Banner 468x60 -->
+        <div class="mb-4" id="banner-publicidad">
+          <script type="text/javascript">
+            atOptions = {
+              'key' : '8da8b77f726a932e9566432841b8348a',
+              'format' : 'iframe',
+              'height' : 60,
+              'width' : 468,
+              'params' : {}
+            };
+          </script>
+          <script type="text/javascript" src="//www.highperformanceformat.com/8da8b77f726a932e9566432841b8348a/invoke.js"></script>
+        </div>
+
+        <!-- 🔍 Buscador -->
+        <div class="search-bar input-group mb-4">
+          <input id="searchInput" type="text" class="form-control" placeholder="Buscar video...">
+          <button class="btn btn-outline-light" id="searchBtn"><i class="bi bi-search"></i> Buscar</button>
+        </div>
+
+        <!-- 🎞️ Videos centrados -->
+        <div class="d-flex justify-content-center">
+          <div id="videoList" class="d-flex flex-column gap-3" style="max-width: 800px; width: 100%;"></div>
+        </div>
+
+        <!-- 🟨 Banner inferior 468x60 -->
+        <div class="mt-4">
+          <script type="text/javascript">
+            atOptions = {
+              'key' : '8da8b77f726a932e9566432841b8348a',
+              'format' : 'iframe',
+              'height' : 60,
+              'width' : 468,
+              'params' : {}
+            };
+          </script>
+          <script type="text/javascript" src="//www.highperformanceformat.com/8da8b77f726a932e9566432841b8348a/invoke.js"></script>
+        </div>
       </div>
 
-      <div class="col-lg-2 d-none d-lg-block">
-        <div class="banner-side">160x600</div>
+      <!-- 🟩 Banner derecho (arriba) -->
+      <div class="col-lg-2 d-none d-lg-block banner-right">
+        <div class="mb-3">
+          <script type="text/javascript">
+            atOptions = {
+              'key' : 'c9844376f33acdb901d47be6c26761f3',
+              'format' : 'iframe',
+              'height' : 600,
+              'width' : 160,
+              'params' : {}
+            };
+          </script>
+          <script type="text/javascript" src="//www.highperformanceformat.com/c9844376f33acdb901d47be6c26761f3/invoke.js"></script>
+        </div>
+        <div>
+          <script type="text/javascript">
+            atOptions = {
+              'key' : 'def2d354586c87a97381744b56937cc2',
+              'format' : 'iframe',
+              'height' : 300,
+              'width' : 160,
+              'params' : {}
+            };
+          </script>
+          <script type="text/javascript" src="//www.highperformanceformat.com/def2d354586c87a97381744b56937cc2/invoke.js"></script>
+        </div>
       </div>
     </div>
   </div>
+
+  <!-- 📱 Banner 320x50 móvil -->
+  <div class="banner-mobile">
+    <script type="text/javascript">
+      atOptions = {
+        'key' : '35be877b574409fd0a427ea27ea2c89a',
+        'format' : 'iframe',
+        'height' : 50,
+        'width' : 320,
+        'params' : {}
+      };
+    </script>
+    <script type="text/javascript" src="//www.highperformanceformat.com/35be877b574409fd0a427ea27ea2c89a/invoke.js"></script>
+  </div>
+
+  <!-- 💬 Botón de ayuda con Smartlink -->
+  <a href="https://www.revenuecpmgate.com/x5iu4kafsh?key=5e7b5b7f064a86118a33430d397bbb5f" target="_blank" class="btn-ayuda">💬 Ayuda</a>
+
+  <!-- 🧠 Native Banner -->
+  <script async="async" data-cfasync="false" src="//pl27790315.revenuecpmgate.com/4677a402e100197d7b671aa96b24ecd2/invoke.js"></script>
+  <div id="container-4677a402e100197d7b671aa96b24ecd2"></div>
+
+  <!-- 💬 Social Bar -->
+  <script type='text/javascript' src='//pl27790319.revenuecpmgate.com/19/c1/1f/19c11fa308e5d05b0d5a296a7a98efc7.js'></script>
+
+  <!-- 💥 Popunder -->
+  <script type='text/javascript' src='//pl27790322.revenuecpmgate.com/48/1d/06/481d060e4913832b3a98975d38e5d942.js'></script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.js"></script>
   <script>
