@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>El Tío Jaco - Buscador de Videos</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background-color: #0d1117;
+      color: #f8f9fa;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .banner-top, .banner-sub, .banner-side, .banner-left {
+      background: #1f2937;
+      border: 1px dashed #444;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #aaa;
+      text-transform: uppercase;
+      font-size: 13px;
+    }
+
+    .banner-top { height: 90px; margin-bottom: 20px; }
+    .banner-sub { height: 60px; margin-bottom: 20px; }
+    .banner-side { width: 160px; height: 600px; margin-left: auto; margin-right: auto; }
+    .banner-left { width: 300px; height: 250px; margin: 0 auto 15px; }
+
+    .video-card {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 10px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      height: 140px;
+    }
+
+    .video-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+    }
+
+    .video-thumb img {
+      width: 180px;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .video-body {
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex: 1;
+    }
+
+    .btn-video {
+      background: #ff3333;
+      color: #fff;
+      font-weight: 600;
+      border: none;
+      transition: 0.3s;
+    }
+
+    .btn-video:hover {
+      background: #ff0000;
+      transform: translateY(-2px);
+    }
+
+    .search-bar {
+      max-width: 600px;
+      margin: 0 auto 20px;
+    }
+
+    @media (max-width: 768px) {
+      .video-card {
+        flex-direction: column;
+        height: auto;
+      }
+      .video-thumb img {
+        width: 100%;
+        height: 180px;
+      }
+      .banner-side { display: none; }
+      .banner-left { width: 100%; height: 120px; }
+    }
+
+    @media (max-width: 576px) {
+      .banner-top, .banner-sub { height: 60px; font-size: 11px; }
+      .video-body h5 { font-size: 16px; }
+      .video-body p { font-size: 13px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container-fluid text-center p-3">
+    <div class="banner-top mb-3">728x90 Banner</div>
+    <div class="banner-sub mb-4">468x60 Banner</div>
+
+    <h1 class="fw-bold mb-1">EL TÍO JACO</h1>
+    <p class="mb-4">Entretenimiento, anime, música y más</p>
+
+    <div class="search-bar input-group mb-4">
+      <input id="searchInput" type="text" class="form-control" placeholder="Buscar video...">
+      <button class="btn btn-outline-light" id="searchBtn"><i class="bi bi-search"></i> Buscar</button>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-2 d-none d-lg-block">
+        <div class="banner-left">300x250</div>
+        <div class="banner-left" style="height:50px;">300x50</div>
+      </div>
+
+      <div class="col-lg-8 col-md-8 p-5">
+        <div id="videoList" class="d-flex flex-column gap-3 pl-4 pr-4"></div>
+      </div>
+
+      <div class="col-lg-2 d-none d-lg-block">
+        <div class="banner-side">160x600</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.js"></script>
+  <script>
+    async function loadVideos() {
+      const response = await fetch("videos.json");
+      const videos = await response.json();
+      displayVideos(videos);
+    }
+
+    function displayVideos(videos) {
+      const container = document.getElementById("videoList");
+      container.innerHTML = "";
+      videos.forEach(video => {
+        const card = document.createElement("div");
+        card.className = "video-card";
+        card.innerHTML = `
+          <div class="video-thumb">
+            <img src="${video.imagen}" alt="${video.titulo}">
+          </div>
+          <div class="video-body text-start">
+            <div>
+              <h5>${video.titulo}</h5>
+              <p class="small mb-1">${video.descripcion}</p>
+              <p class="text-muted small">${video.fecha}</p>
+            </div>
+            <a href="${video.link}" target="_blank" class="btn btn-video btn-sm">Ver Video</a>
+          </div>`;
+        container.appendChild(card);
+      });
+    }
+
+    document.getElementById("searchBtn").addEventListener("click", async () => {
+      const query = document.getElementById("searchInput").value.toLowerCase();
+      const response = await fetch("videos.json");
+      const videos = await response.json();
+      const filtered = videos.filter(v =>
+        v.titulo.toLowerCase().includes(query) || v.descripcion.toLowerCase().includes(query)
+      );
+      displayVideos(filtered);
+    });
+
+    loadVideos();
+  </script>
+</body>
+</html>
