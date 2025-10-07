@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="rating" content="adult">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
   <title>El Tío Jaco - Buscador de Videos</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
   <style>
@@ -36,6 +39,10 @@
       object-fit: cover;
       transition: filter 0.3s;
     }
+    .text-muted
+    {
+      color: #ffffff !important;
+    }
 
     .video-card:hover .video-thumb img {
       filter: brightness(0.8);
@@ -50,11 +57,12 @@
     }
 
     .btn-video {
-      background: #ff3333;
-      color: #fff;
-      font-weight: 600;
+      background: #f1af20;
+      color: #383636;
+      font-weight: bold;
       border: none;
       transition: 0.3s;
+      width: 200px;
     }
 
     .btn-video:hover {
@@ -108,10 +116,36 @@
       .banner-left, .banner-right { display: none; }
       .banner-mobile { display: block; }
     }
+    #aviso {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.95);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      z-index: 10000;
+    }
+     #aviso h2 { color: #f1af20; font-weight: bold; margin-bottom: 10px; }
+    #aviso button {
+      background: #f1af20; border: none; color: #000;
+      font-weight: bold; padding: 10px 20px; border-radius: 8px;
+      cursor: pointer; transition: 0.3s;
+    }
+    #aviso button:hover { background: #ff0000; color: #fff; }
   </style>
 </head>
 
 <body>
+   <div id="aviso">
+    <h2>Advertencia +18</h2>
+    <p>Este sitio contiene enlaces a material para adultos.  
+    Solo continúa si eres mayor de edad.</p>
+    <button onclick="entrar()">Entrar</button>
+  </div>
   <div class="container-fluid text-center p-3">
     <div class="row align-items-start">
       <!-- 🟥 Banner izquierdo (arriba) -->
@@ -270,7 +304,7 @@
               <p class="small mb-1">${video.descripcion}</p>
               <p class="text-muted small">${video.fecha}</p>
             </div>
-            <a href="${video.link}" target="_blank" class="btn btn-video btn-sm">Ver Video</a>
+            <a href="${video.link}" target="_blank" class="btn btn-video btn-sm">Ver Perfil</a>
           </div>`;
         container.appendChild(card);
       });
@@ -287,6 +321,9 @@
     });
 
     loadVideos();
+  </script>
+  <script>
+    function entrar(){ document.getElementById('aviso').style.display='none'; }
   </script>
 </body>
 </html>
