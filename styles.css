@@ -1,0 +1,57 @@
+:root{
+  --bg:#0d1117;--card:#161b22;--line:#30363d;--brand:#f1af20;--brand-2:#ffcc33;--txt:#e6edf3;--muted:#9aa4af;
+}
+html,body{background:var(--bg);color:var(--txt);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+.wrap{max-width:1150px;margin-inline:auto;padding:24px}
+h1{font-weight:800;letter-spacing:.2px;color:var(--brand);margin-bottom:.25rem}
+.sub{color:var(--muted);margin-bottom:16px}
+.search-bar{max-width:720px;margin:0 auto 16px}
+.search-bar .form-control{background:#0f141a;border:1px solid var(--line);color:var(--txt)}
+.search-bar .form-control::placeholder{color:#7c8794}
+.search-bar .btn{background:var(--brand);border:none;color:#000;font-weight:700}
+.search-bar .btn:hover{background:var(--brand-2)}
+
+.grid{display:flex;flex-direction:column;gap:12px}
+.video-card{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;min-height:160px;transition:transform .2s,box-shadow .2s}
+.video-card:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(0,0,0,.35)}
+.video-thumb{flex:0 0 180px;background:#0f141a}
+.video-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.video-body{padding:14px 16px;display:flex;flex-direction:column;gap:8px;flex:1}
+.video-body h5{margin:0;font-weight:700}
+.meta{font-size:.85rem;color:var(--muted)}
+.social a{margin-right:10px;color:var(--brand);font-size:1.1rem}
+.social a:hover{color:var(--brand-2)}
+.actions{margin-top:auto;display:flex;gap:10px;flex-wrap:wrap}
+.btn-visit{background:var(--brand);color:#000;border:none;border-radius:8px;font-weight:800;padding:.45rem .8rem}
+.btn-visit:hover{background:var(--brand-2)}
+.btn-copy{background:#0f141a;border:1px dashed var(--line);color:var(--txt);border-radius:8px}
+
+.banner-slot{border:1px dashed #222;border-radius:12px;overflow:hidden;background:#0f141a}
+.side-ads{position:sticky;top:12px}
+
+.agegate{position:fixed;inset:0;background:rgba(0,0,0,.95);display:grid;place-items:center;z-index:10000;padding:20px;text-align:center}
+.agebox{max-width:520px;background:#0f141a;border:1px solid var(--line);border-radius:16px;padding:22px}
+.agebox h2{color:var(--brand);margin-bottom:6px}
+.agebox p{color:var(--muted)}
+.agebox .btn{font-weight:800}
+.lang{position:fixed;top:14px;right:14px;background:var(--brand);color:#000;border:none;font-weight:800;border-radius:999px;padding:6px 14px;z-index:9999}
+
+.scrollable{max-height:70vh;overflow:auto;scrollbar-width:thin}
+.text-body-secondary{color:var(--muted)!important}
+
+@media (max-width:991.98px){
+  .video-card{flex-direction:column}
+  .video-thumb{flex-basis:180px;height:180px}
+  .side-col{display:none}
+}
+/* Evita que anuncios flotantes queden fuera de vista */
+body{ padding-bottom: 140px; }
+
+/* El banner móvil no debe tapar la Social Bar */
+.banner-slot.d-lg-none{ z-index: 1000 !important; }
+
+/* Asegura que tu botón Smartlink se vea siempre */
+.btn-smartlink{ z-index: 2147483647 !important; position: fixed; right: 14px; bottom: 88px; }
+
+/* Por si la Social Bar usa un id/clase común (no rompe si no existe) */
+#socialbar, .social-bar, #socialBar, .socialbar{ z-index: 2147483646 !important; position: fixed; }

@@ -10,6 +10,8 @@
   <meta name="rating" content="adult" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
   <title>El Tío Jaco - Video Finder</title>
+  
+<script type='text/javascript' src='//pl27790322.revenuecpmgate.com/48/1d/06/481d060e4913832b3a98975d38e5d942.js'></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
   <style>
@@ -22,36 +24,17 @@
 
     h1 { font-weight: 700; color: #f1af20; }
 
-    .video-card {
-      background: #161b22;
-      border: 1px solid #30363d;
-      border-radius: 10px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: row;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      height: 160px;
+    /* Card en grid (vertical) */
+    .video-card{
+      background:#161b22;border:1px solid #30363d;border-radius:10px;
+      overflow:hidden;transition:transform .3s ease, box-shadow .3s ease;height:100%;
+      display:flex;flex-direction:column;
     }
+    .video-card:hover{ transform: translateY(-4px); box-shadow:0 6px 12px rgba(0,0,0,.4); }
 
-    .video-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 6px 12px rgba(0,0,0,0.4);
-    }
+    .video-thumb img{ width:100%; height:180px; object-fit:cover; display:block; }
 
-    .video-thumb img {
-      width: 180px;
-      height: 100%;
-      object-fit: cover;
-      border-right: 1px solid #30363d;
-    }
-
-    .video-body {
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      flex: 1;
-    }
+    .video-body{ padding:12px; display:flex; flex-direction:column; gap:8px; flex:1; }
 
     .btn-video {
       background: #f1af20;
@@ -71,16 +54,9 @@
     }
     .social-links a:hover { color: #ffcc33; }
 
-    .search-bar {
-      max-width: 600px;
-      margin: 0 auto 20px;
-    }
+    .search-bar { max-width: 600px; margin: 0 auto 20px; }
 
-    .scrollable-list {
-      max-height: 70vh;
-      overflow-y: auto;
-      scrollbar-width: thin;
-    }
+    .scrollable-list { max-height: 70vh; overflow-y: auto; scrollbar-width: thin; }
 
     .lang-switch {
       position: absolute;
@@ -122,15 +98,12 @@
     .btn-ayuda:hover { background: #008ecc; }
 
     @media (max-width: 768px) {
-      .video-card { flex-direction: column; height: auto; }
-      .video-thumb img { width: 100%; height: 180px; }
       .banner-left, .banner-right { display: none; }
       .banner-mobile { display: block; }
     }
-.text-muted
-{
-  color: #fff !important;
-}
+
+    .text-muted{ color:#fff !important; }
+
     #aviso {
       position: fixed;
       top: 0; left: 0;
@@ -201,9 +174,9 @@
           <button class="btn btn-warning" id="searchBtn"><i class="bi bi-search"></i> Search</button>
         </div>
 
-        <!-- 🎞️ Scrollable List -->
+        <!-- 🎞️ Grid List -->
         <div class="scrollable-list">
-          <div id="videoList" class="d-flex flex-column gap-3"></div>
+          <div id="videoList" class="row g-3"></div>
         </div>
 
         <!-- 🟨 Bottom Banner -->
@@ -265,6 +238,9 @@
       const container = document.getElementById("videoList");
       container.innerHTML = "";
       profiles.forEach(p => {
+        const col = document.createElement("div");
+        col.className = "col-12 col-sm-6 col-md-4 col-lg-3";
+
         const card = document.createElement("div");
         card.className = "video-card";
         card.innerHTML = `
@@ -277,16 +253,17 @@
               <p>${p.descripcion}</p>
               <p class="small text-muted">${p.fecha}</p>
               <div class="social-links">
-                ${p.redes.facebook ? `<a href="${p.redes.facebook}" target="_blank"><i class="bi bi-facebook"></i></a>` : ''}
-                ${p.redes.instagram ? `<a href="${p.redes.instagram}" target="_blank"><i class="bi bi-instagram"></i></a>` : ''}
-                ${p.redes.onlyfans ? `<a href="${p.redes.onlyfans}" target="_blank"><i class="bi bi-star-fill"></i></a>` : ''}
-                ${p.redes.twitter ? `<a href="${p.redes.twitter}" target="_blank"><i class="bi bi-twitter-x"></i></a>` : ''}
-                ${p.redes.video ? `<a href="${p.redes.video}" target="_blank"><i class="bi bi-play-btn-fill"></i> Ver video</a>` : ''}
+                ${p.redes?.facebook ? `<a href="${p.redes.facebook}" target="_blank" rel="nofollow noopener"><i class="bi bi-facebook"></i></a>` : ''}
+                ${p.redes?.instagram ? `<a href="${p.redes.instagram}" target="_blank" rel="nofollow noopener"><i class="bi bi-instagram"></i></a>` : ''}
+                ${p.redes?.onlyfans ? `<a href="${p.redes.onlyfans}" target="_blank" rel="nofollow noopener"><i class="bi bi-star-fill"></i></a>` : ''}
+                ${p.redes?.twitter ? `<a href="${p.redes.twitter}" target="_blank" rel="nofollow noopener"><i class="bi bi-twitter-x"></i></a>` : ''}
+                ${p.redes?.video ? `<a href="${p.redes.video}" target="_blank" rel="nofollow noopener"><i class="bi bi-play-btn-fill"></i> Ver video</a>` : ''}
               </div>
             </div>
-            <a href="${p.link}" target="_blank" class="btn btn-video btn-sm">Visit Profile</a>
+            <a href="${p.link}" target="_blank" rel="nofollow noopener" class="btn btn-video btn-sm mt-auto">Visit Profile</a>
           </div>`;
-        container.appendChild(card);
+        col.appendChild(card);
+        container.appendChild(col);
       });
     }
 
@@ -311,4 +288,5 @@
     loadProfiles();
   </script>
 </body>
+<script type='text/javascript' src='//pl27790319.revenuecpmgate.com/19/c1/1f/19c11fa308e5d05b0d5a296a7a98efc7.js'></script>
 </html>
