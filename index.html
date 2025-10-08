@@ -1,20 +1,26 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="rating" content="adult">
-<meta name="referrer" content="strict-origin-when-cross-origin">
-
-  <title>El Tío Jaco - Buscador de Videos</title>
+  <meta name="description" content="El Tío Jaco - Adult video finder and entertainment hub with social media profiles." />
+  <meta name="keywords" content="El Tío Jaco, videos, models, onlyfans, instagram, twitter, facebook, entertainment" />
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="El Tío Jaco" />
+  <meta name="rating" content="adult" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <title>El Tío Jaco - Video Finder</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
   <style>
     body {
       background-color: #0d1117;
       color: #f8f9fa;
-      font-family: 'Segoe UI', sans-serif;
+      font-family: "Segoe UI", Roboto, Arial, sans-serif;
       padding-bottom: 80px;
     }
+
+    h1 { font-weight: 700; color: #f1af20; }
 
     .video-card {
       background: #161b22;
@@ -23,13 +29,12 @@
       overflow: hidden;
       display: flex;
       flex-direction: row;
-      align-items: stretch;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
-      height: 140px;
+      height: 160px;
     }
 
     .video-card:hover {
-      transform: translateY(-6px);
+      transform: translateY(-4px);
       box-shadow: 0 6px 12px rgba(0,0,0,0.4);
     }
 
@@ -37,15 +42,7 @@
       width: 180px;
       height: 100%;
       object-fit: cover;
-      transition: filter 0.3s;
-    }
-    .text-muted
-    {
-      color: #ffffff !important;
-    }
-
-    .video-card:hover .video-thumb img {
-      filter: brightness(0.8);
+      border-right: 1px solid #30363d;
     }
 
     .video-body {
@@ -58,21 +55,44 @@
 
     .btn-video {
       background: #f1af20;
-      color: #383636;
+      color: #000;
       font-weight: bold;
       border: none;
+      border-radius: 6px;
       transition: 0.3s;
-      width: 200px;
     }
+    .btn-video:hover { background: #ffcc33; }
 
-    .btn-video:hover {
-      background: #ff0000;
-      transform: translateY(-2px);
+    .social-links a {
+      margin-right: 10px;
+      color: #f1af20;
+      font-size: 1.2rem;
+      transition: 0.2s;
     }
+    .social-links a:hover { color: #ffcc33; }
 
     .search-bar {
       max-width: 600px;
       margin: 0 auto 20px;
+    }
+
+    .scrollable-list {
+      max-height: 70vh;
+      overflow-y: auto;
+      scrollbar-width: thin;
+    }
+
+    .lang-switch {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      background: #f1af20;
+      color: #111;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
     }
 
     .banner-mobile {
@@ -99,23 +119,18 @@
       padding: 10px 20px;
       box-shadow: 0 0 10px rgba(0,0,0,0.5);
     }
-
-    .btn-ayuda:hover {
-      background: #008ecc;
-    }
+    .btn-ayuda:hover { background: #008ecc; }
 
     @media (max-width: 768px) {
-      .video-card {
-        flex-direction: column;
-        height: auto;
-      }
-      .video-thumb img {
-        width: 100%;
-        height: 180px;
-      }
+      .video-card { flex-direction: column; height: auto; }
+      .video-thumb img { width: 100%; height: 180px; }
       .banner-left, .banner-right { display: none; }
       .banner-mobile { display: block; }
     }
+.text-muted
+{
+  color: #fff !important;
+}
     #aviso {
       position: fixed;
       top: 0; left: 0;
@@ -126,126 +141,91 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      text-align: center;
       z-index: 10000;
+      text-align: center;
     }
-     #aviso h2 { color: #f1af20; font-weight: bold; margin-bottom: 10px; }
+    #aviso h2 { color: #f1af20; margin-bottom: 10px; }
     #aviso button {
       background: #f1af20; border: none; color: #000;
-      font-weight: bold; padding: 10px 20px; border-radius: 8px;
-      cursor: pointer; transition: 0.3s;
+      padding: 10px 20px; border-radius: 8px; font-weight: bold;
     }
     #aviso button:hover { background: #ff0000; color: #fff; }
   </style>
 </head>
 
 <body>
-   <div id="aviso">
-    <h2>Advertencia +18</h2>
-    <p>Este sitio contiene enlaces a material para adultos.  
-    Solo continúa si eres mayor de edad.</p>
-    <button onclick="entrar()">Entrar</button>
+  <div id="aviso">
+    <h2>+18 Warning</h2>
+    <p>This website contains adult content. Continue only if you are of legal age.</p>
+    <button onclick="enterSite()">Enter</button>
   </div>
+
+  <button class="lang-switch" onclick="switchLang()">ES</button>
+
   <div class="container-fluid text-center p-3">
     <div class="row align-items-start">
-      <!-- 🟥 Banner izquierdo (arriba) -->
+
+      <!-- 🟥 Left Banner -->
       <div class="col-lg-2 d-none d-lg-block banner-left">
-        <div class="mb-3">
-          <script type="text/javascript">
-            atOptions = {
-              'key' : 'cc2c56e63007296384ef27a2b0a74b05',
-              'format' : 'iframe',
-              'height' : 250,
-              'width' : 300,
-              'params' : {}
-            };
-          </script>
-          <script type="text/javascript" src="//www.highperformanceformat.com/cc2c56e63007296384ef27a2b0a74b05/invoke.js"></script>
-        </div>
+        <script type="text/javascript">
+          atOptions={'key':'cc2c56e63007296384ef27a2b0a74b05','format':'iframe','height':250,'width':300,'params':{}};
+        </script>
+        <script type="text/javascript" src="//www.highperformanceformat.com/cc2c56e63007296384ef27a2b0a74b05/invoke.js"></script>
       </div>
 
-      <!-- 🎥 Contenido principal -->
+      <!-- 🎥 Main Content -->
       <div class="col-lg-8 col-md-12">
-        <!-- 🟦 Banner 728x90 -->
-        <div id="banner-top" class="mb-3">
+
+        <!-- 🟦 Top Banner -->
+        <div class="mb-3">
           <script type="text/javascript">
-            atOptions = {
-              'key' : 'fb86845e5749849c030a0a8e8366b2fa',
-              'format' : 'iframe',
-              'height' : 90,
-              'width' : 728,
-              'params' : {}
-            };
+            atOptions={'key':'fb86845e5749849c030a0a8e8366b2fa','format':'iframe','height':90,'width':728,'params':{}};
           </script>
           <script type="text/javascript" src="//www.highperformanceformat.com/fb86845e5749849c030a0a8e8366b2fa/invoke.js"></script>
         </div>
 
-        <h1 class="fw-bold mb-1">EL TÍO JACO</h1>
-        <p class="mb-3">Entretenimiento, anime, música y más</p>
+        <h1>El Tío Jaco</h1>
+        <p>Entertainment, anime, music and more</p>
 
-        <!-- 🟨 Banner 468x60 -->
-        <div class="mb-4" id="banner-publicidad">
+        <!-- 🟨 Center Banner -->
+        <div class="mb-4">
           <script type="text/javascript">
-            atOptions = {
-              'key' : '8da8b77f726a932e9566432841b8348a',
-              'format' : 'iframe',
-              'height' : 60,
-              'width' : 468,
-              'params' : {}
-            };
+            atOptions={'key':'8da8b77f726a932e9566432841b8348a','format':'iframe','height':60,'width':468,'params':{}};
           </script>
           <script type="text/javascript" src="//www.highperformanceformat.com/8da8b77f726a932e9566432841b8348a/invoke.js"></script>
         </div>
 
-        <!-- 🔍 Buscador -->
+        <!-- 🔍 Search -->
         <div class="search-bar input-group mb-4">
-          <input id="searchInput" type="text" class="form-control" placeholder="Buscar video...">
-          <button class="btn btn-outline-light" id="searchBtn"><i class="bi bi-search"></i> Buscar</button>
+          <input id="searchInput" type="text" class="form-control" placeholder="Search profile...">
+          <button class="btn btn-warning" id="searchBtn"><i class="bi bi-search"></i> Search</button>
         </div>
 
-        <!-- 🎞️ Videos centrados -->
-        <div class="d-flex justify-content-center">
-          <div id="videoList" class="d-flex flex-column gap-3" style="max-width: 800px; width: 100%;"></div>
+        <!-- 🎞️ Scrollable List -->
+        <div class="scrollable-list">
+          <div id="videoList" class="d-flex flex-column gap-3"></div>
         </div>
 
-        <!-- 🟨 Banner inferior 468x60 -->
+        <!-- 🟨 Bottom Banner -->
         <div class="mt-4">
           <script type="text/javascript">
-            atOptions = {
-              'key' : '8da8b77f726a932e9566432841b8348a',
-              'format' : 'iframe',
-              'height' : 60,
-              'width' : 468,
-              'params' : {}
-            };
+            atOptions={'key':'8da8b77f726a932e9566432841b8348a','format':'iframe','height':60,'width':468,'params':{}};
           </script>
           <script type="text/javascript" src="//www.highperformanceformat.com/8da8b77f726a932e9566432841b8348a/invoke.js"></script>
         </div>
       </div>
 
-      <!-- 🟩 Banner derecho (arriba) -->
+      <!-- 🟩 Right Banners -->
       <div class="col-lg-2 d-none d-lg-block banner-right">
         <div class="mb-3">
           <script type="text/javascript">
-            atOptions = {
-              'key' : 'c9844376f33acdb901d47be6c26761f3',
-              'format' : 'iframe',
-              'height' : 600,
-              'width' : 160,
-              'params' : {}
-            };
+            atOptions={'key':'c9844376f33acdb901d47be6c26761f3','format':'iframe','height':600,'width':160,'params':{}};
           </script>
           <script type="text/javascript" src="//www.highperformanceformat.com/c9844376f33acdb901d47be6c26761f3/invoke.js"></script>
         </div>
         <div>
           <script type="text/javascript">
-            atOptions = {
-              'key' : 'def2d354586c87a97381744b56937cc2',
-              'format' : 'iframe',
-              'height' : 300,
-              'width' : 160,
-              'params' : {}
-            };
+            atOptions={'key':'def2d354586c87a97381744b56937cc2','format':'iframe','height':300,'width':160,'params':{}};
           </script>
           <script type="text/javascript" src="//www.highperformanceformat.com/def2d354586c87a97381744b56937cc2/invoke.js"></script>
         </div>
@@ -253,25 +233,19 @@
     </div>
   </div>
 
-  <!-- 📱 Banner 320x50 móvil -->
+  <!-- 📱 Mobile Banner -->
   <div class="banner-mobile">
     <script type="text/javascript">
-      atOptions = {
-        'key' : '35be877b574409fd0a427ea27ea2c89a',
-        'format' : 'iframe',
-        'height' : 50,
-        'width' : 320,
-        'params' : {}
-      };
+      atOptions={'key':'35be877b574409fd0a427ea27ea2c89a','format':'iframe','height':50,'width':320,'params':{}};
     </script>
     <script type="text/javascript" src="//www.highperformanceformat.com/35be877b574409fd0a427ea27ea2c89a/invoke.js"></script>
   </div>
 
-  <!-- 💬 Botón de ayuda con Smartlink -->
-  <a href="https://www.revenuecpmgate.com/x5iu4kafsh?key=5e7b5b7f064a86118a33430d397bbb5f" target="_blank" class="btn-ayuda">💬 Ayuda</a>
+  <!-- 💬 Smartlink -->
+  <a href="https://www.revenuecpmgate.com/x5iu4kafsh?key=5e7b5b7f064a86118a33430d397bbb5f" target="_blank" class="btn-ayuda">💬 Help</a>
 
   <!-- 🧠 Native Banner -->
-  <script async="async" data-cfasync="false" src="//pl27790315.revenuecpmgate.com/4677a402e100197d7b671aa96b24ecd2/invoke.js"></script>
+  <script async data-cfasync="false" src="//pl27790315.revenuecpmgate.com/4677a402e100197d7b671aa96b24ecd2/invoke.js"></script>
   <div id="container-4677a402e100197d7b671aa96b24ecd2"></div>
 
   <!-- 💬 Social Bar -->
@@ -280,31 +254,37 @@
   <!-- 💥 Popunder -->
   <script type='text/javascript' src='//pl27790322.revenuecpmgate.com/48/1d/06/481d060e4913832b3a98975d38e5d942.js'></script>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.js"></script>
   <script>
-    async function loadVideos() {
+    async function loadProfiles() {
       const response = await fetch("videos.json");
-      const videos = await response.json();
-      displayVideos(videos);
+      const profiles = await response.json();
+      displayProfiles(profiles);
     }
 
-    function displayVideos(videos) {
+    function displayProfiles(profiles) {
       const container = document.getElementById("videoList");
       container.innerHTML = "";
-      videos.forEach(video => {
+      profiles.forEach(p => {
         const card = document.createElement("div");
         card.className = "video-card";
         card.innerHTML = `
           <div class="video-thumb">
-            <img src="${video.imagen}" alt="${video.titulo}">
+            <img src="${p.imagen}" alt="${p.titulo}">
           </div>
           <div class="video-body text-start">
             <div>
-              <h5>${video.titulo}</h5>
-              <p class="small mb-1">${video.descripcion}</p>
-              <p class="text-muted small">${video.fecha}</p>
+              <h5>${p.titulo}</h5>
+              <p>${p.descripcion}</p>
+              <p class="small text-muted">${p.fecha}</p>
+              <div class="social-links">
+                ${p.redes.facebook ? `<a href="${p.redes.facebook}" target="_blank"><i class="bi bi-facebook"></i></a>` : ''}
+                ${p.redes.instagram ? `<a href="${p.redes.instagram}" target="_blank"><i class="bi bi-instagram"></i></a>` : ''}
+                ${p.redes.onlyfans ? `<a href="${p.redes.onlyfans}" target="_blank"><i class="bi bi-star-fill"></i></a>` : ''}
+                ${p.redes.twitter ? `<a href="${p.redes.twitter}" target="_blank"><i class="bi bi-twitter-x"></i></a>` : ''}
+                ${p.redes.video ? `<a href="${p.redes.video}" target="_blank"><i class="bi bi-play-btn-fill"></i> Ver video</a>` : ''}
+              </div>
             </div>
-            <a href="${video.link}" target="_blank" class="btn btn-video btn-sm">Ver Perfil</a>
+            <a href="${p.link}" target="_blank" class="btn btn-video btn-sm">Visit Profile</a>
           </div>`;
         container.appendChild(card);
       });
@@ -313,17 +293,22 @@
     document.getElementById("searchBtn").addEventListener("click", async () => {
       const query = document.getElementById("searchInput").value.toLowerCase();
       const response = await fetch("videos.json");
-      const videos = await response.json();
-      const filtered = videos.filter(v =>
-        v.titulo.toLowerCase().includes(query) || v.descripcion.toLowerCase().includes(query)
+      const profiles = await response.json();
+      const filtered = profiles.filter(p =>
+        p.titulo.toLowerCase().includes(query) || p.descripcion.toLowerCase().includes(query)
       );
-      displayVideos(filtered);
+      displayProfiles(filtered);
     });
 
-    loadVideos();
-  </script>
-  <script>
-    function entrar(){ document.getElementById('aviso').style.display='none'; }
+    function enterSite(){ document.getElementById('aviso').style.display='none'; }
+
+    function switchLang(){
+      const lang=document.documentElement.lang==='en'?'es':'en';
+      document.documentElement.lang=lang;
+      location.reload();
+    }
+
+    loadProfiles();
   </script>
 </body>
 </html>
